@@ -12,10 +12,11 @@ var server = http.createServer((request, response) => {
       result1.minute = Number(time.substr(14,2));
       result1.second = Number(time.substr(17,2));
       response.end(JSON.stringify(result1));
-
+	/*
       var date = new Date(req.query.substr(4));
       var result2 = {"unixtime": date.getTime()};
       response.end(JSON.stringify(result2));
+	*/
   }
 });
 server.listen(80);
