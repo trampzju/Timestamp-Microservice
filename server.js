@@ -5,7 +5,7 @@ var server = http.createServer((request, response) => {
   if (request.url!=="/favicon.ico") {
       	var req = url.parse(request.url);
 	if(req.path.substr(1).length === 0) {
-		respnes.end("{\"unix\": null, \"natural\": null}");
+		response.end("{\"unix\": null, \"natural\": null}");
 		return;
 	}
 	//console.log(req);
@@ -15,7 +15,7 @@ var server = http.createServer((request, response) => {
 		//console.log(time);
       		var date = new Date(time);
 		if(isNaN(date)) {
-			respnes.end("{\"unix\": null, \"natural\": null}");
+			response.end("{\"unix\": null, \"natural\": null}");
 		}
 		else {
       			var result2 = {"unix": date.getTime(), "natural": date.toDateString()};
