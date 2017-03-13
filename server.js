@@ -2,19 +2,24 @@ var fs = require("fs");
 var http = require("http");
 var url = require("url");
 var server = http.createServer((request, response) => {
-  if (request.method == "GET" && request.url!=="/favicon.ico") {
-	/*
-      var req = url.parse(request.url);
-      var time = req.query.substr(4);
-      var result1 = {"hour": 0, "minute": 0, "second": 0};
-      result1.hour = Number(time.substr(11,2)) + 8;
-      result1.minute = Number(time.substr(14,2));
-      result1.second = Number(time.substr(17,2));
-      response.end(JSON.stringify(result1));
-	*/
-      var date = new Date();
-      var result2 = {"unixtime": date.getTime()};
-      response.end(JSON.stringify(result2));
+  if (request.url!=="/favicon.ico") {
+      	var req = url.parse(request.url);
+	//console.log(req);
+	var reg = /[^0-9]/;
+	if(reg.test(req.path.substr(1))){
+      		var time = req.path.substr(1).replace(/%20/g, " ");
+		//console.log(time);
+      		var date = new Date(time);
+      		var result2 = {"unix": date.getTime(), "natural": date.toDateString()};
+      		response.end(JSON.stringify(result2));
+	}
+	else {
+		var date = new Date();
+		//console.log(req.path.substr(1));
+		date.setTime(req.path.substr(1));
+		var result2 = {"unix": req.path.substr(1), "natural": date.toDateString()};
+      		response.end(JSON.stringify(result2));
+	}
   }
 });
 server.listen(process.env.PORT || 5000);
